@@ -1,19 +1,3 @@
-# macierz = [
-#     [1,23,5,2],
-#     [2,4,5,2],
-#     [2,0,0,-2],
-#     [2,2,-1,-1]
-# ]
-
-# macierz = [
-#     [1,1,2,1,4],
-#     [2,3,3,1,2],
-#     [3,2,4,1,3],
-#     [4,5,5,-2,3],
-#     [5,4,6,1,3],
-# ]
-
-
 def generujMacierz():
     n = int(input('Podaj wielkosc macierzy, ktorej wyznacznik chcesz obliczyc: '))
     macierz = []
@@ -102,10 +86,15 @@ def metodaLaplace(macierz):
         for j in range(len(macierz[i])):
             if macierz[j][i] == 0:
                 continue
-            wyznacznik = wyznacznik3(minor(j, i, macierz))
-            det += macierz[j][i]*((-1)**(i+j))*wyznacznik
+            if len(minor(j, i, macierz)) > 3:
+                wyznacznik = metodaLaplace(minor(j, i, macierz))
+            else:
+                wyznacznik = wyznacznik3(minor(j, i, macierz))
+            det += macierz[j][i] * ((-1) ** (i + j)) * wyznacznik
     return det
 
-macierz = generujMacierz()
-wypisz(macierz)
-print(metodaLaplace(macierz))
+
+if __name__ == '__main__':
+    macierz = generujMacierz()
+    wypisz(macierz)
+    print(metodaLaplace(macierz))
